@@ -1,0 +1,49 @@
+# Self-hosted deployment without a registry: the image is built on this machine and the
+# `updater` sidecar rebuilds + redeploys automatically whenever a new git commit lands
+# (pulled from the remote, or committed directly in this checkout).
+#
+#   docker compose -f docker-compose.selfhost.yml up -d --build
+name: whereibeen
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        APP_VERSION: ${APP_VERSION:-}
+        GIT_SHA: ${GIT_SHA:-}
+        BUILD_NUMBER: ${BUILD_NUMBER:-}
+        BUILD_DATE: ${BUILD_DATE:-}
+    image: whereibeen:local
+    container_name: whereibeen
+    restart: unless-stopped
+    ports:
+      - "${WHEREIBEEN_PORT:-8080}:8080"
+    environment:
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+  updater:
+    build: ./deploy/updater
+    image: whereibeen-updater:local
+    container_name: whereibeen-updater
+    restart: unless-stopped
+    depends_on: [web]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/repo
+      - updater-state:/state
+    environment:
+      REPO_DIR: /repo
+      COMPOSE_FILE_NAME: docker-compose.selfhost.yml
+      SERVICE: web
+      BRANCH: ${AUTO_UPDATE_BRANCH:-main}
+      INTERVAL: ${AUTO_UPDATE_INTERVAL:-30}
+      # true: also `git fetch` + fast-forward from origin (pull-based deploys)
+      FETCH_REMOTE: ${AUTO_UPDATE_FETCH:-true}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      WHEREIBEEN_PORT: ${WHEREIBEEN_PORT:-8080}
+
+volumes:
+  updater-state:

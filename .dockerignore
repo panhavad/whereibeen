@@ -1,0 +1,16 @@
+node_modules
+dist
+dev-dist
+.git
+.github
+.vscode
+.idea
+.env
+.env.*
+!.env.example
+*.log
+coverage
+.DS_Store
+Thumbs.db
+docker-compose*.yml
+deploy/updater

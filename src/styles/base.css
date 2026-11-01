@@ -1,0 +1,378 @@
+:root {
+  --bg: #05060d;
+  --bg-2: #080a16;
+  --bg-elev: #0c1022;
+  --panel: rgba(16, 21, 44, 0.56);
+  --panel-strong: rgba(14, 18, 38, 0.88);
+  --line: rgba(160, 174, 255, 0.13);
+  --line-strong: rgba(160, 174, 255, 0.26);
+  --text: #eef1ff;
+  --text-2: #b9bfe2;
+  --muted: #7c84ad;
+  --c1: #38bdf8;
+  --c2: #a78bfa;
+  --c3: #f472b6;
+  --c4: #fbbf24;
+  --c5: #2dd4bf;
+  --danger: #fb7185;
+  --ok: #34d399;
+  --grad: linear-gradient(120deg, var(--c1) 0%, var(--c2) 52%, var(--c3) 100%);
+  --grad-soft: linear-gradient(120deg, rgba(56, 189, 248, 0.18), rgba(167, 139, 250, 0.18) 50%, rgba(244, 114, 182, 0.18));
+  --radius-lg: 28px;
+  --radius: 22px;
+  --radius-sm: 14px;
+  --shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.85);
+  --glow: 0 0 0 1px rgba(167, 139, 250, 0.35), 0 18px 60px -12px rgba(124, 92, 255, 0.55);
+  --font-display: 'Space Grotesk Variable', 'Twemoji Country Flags', 'Inter Variable', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Twemoji Country Flags', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --nav-h: 76px;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --page-pad: clamp(18px, 4vw, 56px);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--bg);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 700px at 85% -10%, rgba(91, 76, 255, 0.16), transparent 60%),
+    radial-gradient(900px 600px at -10% 20%, rgba(56, 189, 248, 0.1), transparent 60%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+::selection {
+  background: rgba(167, 139, 250, 0.45);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c1);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(160, 174, 255, 0.18);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* ---------------------------------------------------------------- backdrop */
+
+#starfield {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#aurora {
+  position: fixed;
+  inset: -20vmax;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.55;
+  background:
+    radial-gradient(30vmax 22vmax at 20% 30%, rgba(56, 189, 248, 0.16), transparent 70%),
+    radial-gradient(26vmax 20vmax at 80% 20%, rgba(167, 139, 250, 0.2), transparent 70%),
+    radial-gradient(28vmax 20vmax at 60% 85%, rgba(244, 114, 182, 0.12), transparent 70%);
+  animation: aurora-drift 28s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(3vmax, -2vmax, 0) rotate(8deg) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-3vmax, 2vmax, 0) rotate(-6deg) scale(1.02);
+  }
+}
+
+#app {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+#globe-host {
+  display: none;
+}
+
+/* ------------------------------------------------------------------- boot */
+
+.boot {
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.boot-orbit {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  position: relative;
+  animation: spin 1.6s linear infinite;
+}
+
+.boot-orbit span {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--grad);
+  box-shadow: 0 0 16px var(--c2);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ----------------------------------------------------------------- cursor */
+
+#cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+}
+
+.has-cursor #cursor {
+  display: block;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: #fff;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.9);
+}
+
+.cursor-ring {
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border: 1px solid rgba(200, 190, 255, 0.45);
+  transition:
+    width 0.35s var(--ease-out),
+    height 0.35s var(--ease-out),
+    margin 0.35s var(--ease-out),
+    border-color 0.35s,
+    background-color 0.35s;
+}
+
+.cursor-hover .cursor-ring {
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
+  border-color: rgba(167, 139, 250, 0.8);
+  background: rgba(167, 139, 250, 0.08);
+}
+
+.cursor-down .cursor-ring {
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+}
+
+/* ------------------------------------------------------------- page wipe */
+
+#wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  background: var(--grad);
+  clip-path: circle(0% at 50% 50%);
+}
+
+#wipe::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(5, 6, 13, 0) 0%, rgba(5, 6, 13, 0.92) 70%);
+}
+
+/* -------------------------------------------------------------- utilities */
+
+.grad-text {
+  background: var(--grad);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: grad-pan 8s ease-in-out infinite alternate;
+}
+
+@keyframes grad-pan {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.flag {
+  font-family: 'Twemoji Country Flags', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+  font-style: normal;
+  line-height: 1;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
