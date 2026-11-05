@@ -199,3 +199,5 @@ tests/                      Vitest unit tests
 - Countries: [Natural Earth](https://www.naturalearthdata.com/) (public domain)
 - Flag emoji on Windows: [Twemoji](https://github.com/jdecked/twemoji) via `country-flag-emoji-polyfill` (CC BY 4.0)
 - Globe: [globe.gl](https://github.com/vasturiano/globe.gl) / three.js · Animation: [GSAP](https://gsap.com) & [Lenis](https://lenis.darkroom.engineering)
+#   w h e r e i b e e n  
+ 
